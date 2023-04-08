@@ -8,6 +8,7 @@ Stack Used:
 - PyMongo
 - HTML
 - CSS
+- JS
 
 Features:
 - View all quotes
