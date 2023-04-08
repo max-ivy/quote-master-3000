@@ -40,8 +40,6 @@ def add_quote():
     return redirect(url_for('index'))
 
 # Delete quote
-# Delete quote
-# Delete quote
 @app.route('/delete_quote', methods=['POST'])
 def delete_quote():
     quote_text = request.form['quote_text']
@@ -75,4 +73,4 @@ def filter():
     return render_template('index.html', featured_quote=None, quotes=filtered_quotes, categories=set([quote['category'] for quote in quotes]), unique_authors=set([quote['author'] for quote in quotes]))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=9002)
+    app.run(debug=True, port=9001)
