@@ -18,7 +18,6 @@ Features:
 
 Installation:
 - Clone this repository.
-- Install the required dependencies using pip install -r requirements.txt.
 - Start the Flask application using python app.py.
 
 <img width="800" alt="quote master 3000" src="https://user-images.githubusercontent.com/34040500/230709086-a2af908f-6e00-44ae-8222-b270a2e8681d.png">
