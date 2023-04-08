@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 from bson import ObjectId
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27019/quote_master_db"
+app.config["MONGO_URI"] = "MONGO_URI"
 mongo = PyMongo(app)
 
 class Quote:
@@ -39,7 +39,6 @@ def add_quote():
     mongo.db.quotes.insert_one(new_quote_dict)
     return redirect(url_for('index'))
 
-
 # Delete quote
 # Delete quote
 # Delete quote
@@ -48,8 +47,6 @@ def delete_quote():
     quote_text = request.form['quote_text']
     mongo.db.quotes.delete_one({"quote": quote_text})
     return redirect(url_for('index'))
-
-
 
 # Serve quotes as JSON
 @app.route("/quotes")

@@ -55,7 +55,6 @@
 
     <button id="clear-filters" onclick="clearFilters()">Clear Filters</button>
 
-
     <!-- Quote list -->
     <div class="quote-list">
         {% for quote in quotes %}
@@ -71,8 +70,6 @@
       {% endfor %}
       
     </div>
-
-    
 
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
