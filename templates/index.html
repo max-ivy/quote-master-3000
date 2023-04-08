@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Master 3000</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Quote Master 3000</h1>
+    <!-- Featured quote -->
+<div class="featured-quote" id="featured-quote">
+    {% if featured_quote %}
+        <h2 id="featured-quote-text">{{ featured_quote.quote }}</h2>
+        <h3 id="featured-author">- {{ featured_quote.author }}</h3>
+        <h4 id="featured-category">Category: {{ featured_quote.category }}</h4>
+    {% endif %}
+    <button onclick="nextQuote()" id="next-quote" class="next-quote-btn">Next Quote</button>
+</div>
+
+
+    <!-- Enter quote form -->
+    <form class="enter-quote-form" action="{{ url_for('add_quote') }}" method="post">
+        <label for="quote">Enter quote:</label>
+        <input type="text" name="quote" required>
+        <label for="author">Enter author:</label>
+        <input type="text" name="author" required>
+        <label for="category">Enter new category:</label>
+        <input type="text" name="category" required>
+        <button type="submit">Add Quote</button>
+    </form>
+
+    <!-- Search/Filter -->
+    <form class="search-filter-form" id="search-filter-form" action="{{ url_for('filter_quotes') }}" method="post">
+        <label for="filter_type">Search by:</label>
+        <select id="filter_type" name="filter_type">
+            <option value="author">Author</option>
+            <option value="keyword">Keyword</option>
+        </select>
+        <input type="text" id="filter_value" name="filter_value" placeholder="Enter value" required>
+        <button type="submit">Search</button>
+    </form>
+    <!-- Filter by category -->
+    <form class="filter-form">
+        <label for="filter_category">Filter by category:</label>
+        <select id="filter_category" onchange="filterQuotesByCategory(this.value)">
+            <option value="all">All</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <button id="clear-filters" onclick="clearFilters()">Clear Filters</button>
+
+
+    <!-- Quote list -->
+    <div class="quote-list">
+        {% for quote in quotes %}
+        <div class="quote-card" data-category="{{ quote.category }}" id="{{ quote._id }}">
+          <form method="post" action="{{ url_for('delete_quote') }}">
+            <input type="hidden" name="quote_text" value="{{ quote['quote'] }}">
+            <button type="submit" class="delete-button">x</button>
+          </form>
+          <p>{{ quote.quote }}</p>
+          <h4>- {{ quote.author }}</h4>
+          <h5>Category: {{ quote.category }}</h5>
+        </div>
+      {% endfor %}
+      
+    </div>
+
+    
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
