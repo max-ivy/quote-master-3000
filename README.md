@@ -1,4 +1,4 @@
-# quote-master-3000
+# Quote Master 3000
 This  is a web application that displays a collection of quotes stored in a MongoDB database. Users can view and filter the quotes, add new quotes to the database, and delete existing quotes. It uses the Flask framework to handle HTTP requests and render HTML templates.
 
 Stack Used:
