@@ -15,41 +15,44 @@
         <h3 id="featured-author">- {{ featured_quote.author }}</h3>
         <h4 id="featured-category">Category: {{ featured_quote.category }}</h4>
     {% endif %}
-    <button onclick="nextQuote()" id="next-quote" class="next-quote-btn">Next Quote</button>
+    <button onclick="nextQuote()" id="next-quote" class="next-quote-btn">New Quote</button>
 </div>
 
 
     <!-- Enter quote form -->
-    <form class="enter-quote-form" action="{{ url_for('add_quote') }}" method="post">
+    <form class="enter-quote-form" action="{{ url_for('add_quote') }}" method="post" autocomplete="off">
         <label for="quote">Enter quote:</label>
         <input type="text" name="quote" required>
-        <label for="author">Enter author:</label>
+        <label for="author"><br><br>Enter author:</label>
         <input type="text" name="author" required>
-        <label for="category">Enter new category:</label>
+        <label for="category"><br><br>Enter category:</label>
         <input type="text" name="category" required>
         <button type="submit">Add Quote</button>
     </form>
 
-    <!-- Search/Filter -->
-    <form class="search-filter-form" id="search-filter-form" action="{{ url_for('filter_quotes') }}" method="post">
-        <label for="filter_type">Search by:</label>
-        <select id="filter_type" name="filter_type">
-            <option value="author">Author</option>
-            <option value="keyword">Keyword</option>
-        </select>
-        <input type="text" id="filter_value" name="filter_value" placeholder="Enter value" required>
-        <button type="submit">Search</button>
-    </form>
-    <!-- Filter by category -->
-    <form class="filter-form">
-        <label for="filter_category">Filter by category:</label>
-        <select id="filter_category" onchange="filterQuotesByCategory(this.value)">
-            <option value="all">All</option>
-            {% for category in categories %}
-                <option value="{{ category }}">{{ category }}</option>
-            {% endfor %}
-        </select>
-    </form>
+<!-- Search/Filter -->
+<form class="search-filter-form" id="search-filter-form" action="{{ url_for('filter') }}" method="post" autocomplete="off">
+    <label for="author_filter" class="author-filter-label">Filter by author:</label>
+    <select id="author_filter" name="author_filter" class="author-filter-select">
+        <option value="">All</option>
+        {% for author in unique_authors %}
+            <option value="{{ author }}">{{ author }}</option>
+        {% endfor %}
+    </select>
+    <label for="filter_category"><br><br>Filter by category:</label>
+    <select id="filter_category" name="filter_category" autocomplete="off">
+        <option value="all">All</option>
+        {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+    <label for="filter_value" class="keyword-filter-label">Search by keyword:</label>
+    <input type="text" id="filter_value" name="filter_value" placeholder="Enter keyword" class="keyword-filter-input" required>
+
+    <button type="submit">Keyword Search</button>
+</form>
+
     <button id="clear-filters" onclick="clearFilters()">Clear Filters</button>
 
 

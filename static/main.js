@@ -78,12 +78,12 @@ function deleteQuote(quoteIndex) {
 
 
 function clearFilters() {
+  const authorFilter = document.querySelector(".search-filter-form select[name=author_filter]");
   const filterValue = document.querySelector(".search-filter-form input[name=filter_value]");
-  const filterType = document.querySelector(".search-filter-form select[name=filter_type]");
-  const filterCategory = document.querySelector(".filter-form select");
+  const filterCategory = document.querySelector(".search-filter-form select[name=filter_category]");
 
+  authorFilter.value = "";
   filterValue.value = "";
-  filterType.value = "author";
   filterCategory.value = "all";
   filterQuotes();
 }
@@ -91,19 +91,15 @@ function clearFilters() {
 
 
 
+
+
 function filterQuotes() {
   const search = document.querySelector(".search-filter-form input[name=filter_value]").value.toLowerCase();
-  const filterType = document.querySelector(".search-filter-form select[name=filter_type]").value;
   const filterCategory = document.getElementById("filter_category").value;
+  const authorFilter = document.querySelector("#author_filter").value.toLowerCase();
 
   const filteredQuotes = quotes.filter((quote) => {
-    if (filterType === "author") {
-      return quote.author.toLowerCase().includes(search);
-    } else if (filterType === "keyword") {
-      return quote.quote.toLowerCase().includes(search);
-    } else {
-      return true;
-    }
+    return quote.author.toLowerCase().includes(authorFilter) && quote.quote.toLowerCase().includes(search);
   }).filter((quote) => {
     if (filterCategory === "all") {
       return true;
@@ -115,6 +111,7 @@ function filterQuotes() {
   displayQuotes(filteredQuotes);
 }
 
+
 window.onload = function () {
   fetchQuotes();
   document.getElementById("next-quote").addEventListener("click", nextQuote);
@@ -124,4 +121,5 @@ window.onload = function () {
   });
   document.getElementById("clear-filters").addEventListener("click", clearFilters);
   document.getElementById("filter_category").addEventListener("change", filterQuotes);
+  document.getElementById("author_filter").addEventListener("change", filterQuotes);
 };

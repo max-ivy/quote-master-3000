@@ -25,7 +25,7 @@ class Quote:
 def index():
     featured_quote = mongo.db.quotes.aggregate([{"$sample": {"size": 1}}]).next() if mongo.db.quotes.count_documents({}) > 0 else None
     quotes = list(mongo.db.quotes.find())
-    return render_template('index.html', featured_quote=featured_quote, quotes=quotes, categories=set([quote['category'] for quote in quotes]))
+    return render_template('index.html', featured_quote=featured_quote, quotes=quotes, categories=set([quote['category'] for quote in quotes]), unique_authors=set([quote['author'] for quote in quotes]))
 
 # Add quote
 @app.route('/add_quote', methods=['POST'])
@@ -61,22 +61,21 @@ def get_quotes():
         quotes_dict.append(quote)
     return jsonify(quotes_dict)
 
-
-# Filter
 @app.route("/filter", methods=["POST"])
-def filter_quotes():
+def filter():
     filter_type = request.form.get("filter_type")
     filter_value = request.form.get("filter_value")
+    author_filter = request.form.get("author_filter")
     quotes = list(mongo.db.quotes.find())  # Retrieve quotes from MongoDB
 
-    if filter_type == "author":
-        filtered_quotes = [quote for quote in quotes if filter_value.lower() in quote['author'].lower()]
-    elif filter_type == "keyword":
+    if filter_type == "author" and author_filter:
+        filtered_quotes = [quote for quote in quotes if author_filter.lower() == quote['author'].lower()]
+    elif filter_type == "keyword" and filter_value:
         filtered_quotes = [quote for quote in quotes if filter_value.lower() in quote['quote'].lower()]
     else:
-        filtered_quotes = [quote for quote in quotes if filter_value.lower() == quote['category'].lower()]
+        filtered_quotes = quotes
 
-    return render_template('index.html', featured_quote=None, quotes=filtered_quotes, categories=set([quote['category'] for quote in quotes]))
+    return render_template('index.html', featured_quote=None, quotes=filtered_quotes, categories=set([quote['category'] for quote in quotes]), unique_authors=set([quote['author'] for quote in quotes]))
 
 if __name__ == '__main__':
     app.run(debug=True, port=9002)
